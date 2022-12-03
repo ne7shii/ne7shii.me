@@ -4,6 +4,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import { getAllFilesFrontMatter } from '@/lib/mdx'
 import formatDate from '@/lib/utils/formatDate'
+import Image from 'next/image'
 
 import NewsletterForm from '@/components/NewsletterForm'
 
@@ -19,14 +20,37 @@ export default function Home({ posts }) {
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="mt-3 divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="mb-8 flex w-full flex-col-reverse items-start justify-between sm:flex-row ">
+          <div className="flex flex-col pr-8">
+            <h1 className="mb-1 text-3xl font-bold tracking-tight md:text-5xl">
+              Watcharapong Chaidee
+            </h1>
+            <h2 className="mb-4 text-gray-700 dark:text-gray-200">
+              AI Engineer/Full Stack Developer
+              {/* <span className="font-semibold">Vercel</span> */}
+            </h2>
+            <p className="mb-16 text-gray-600 dark:text-gray-400">
+              a developer who interest in many modern tech stack
+            </p>
+          </div>
+          <div className="relative mb-8  w-[80px] sm:mb-0 sm:w-[176px]">
+            <Image
+              alt="Watcharapong Chaidee"
+              height={176}
+              width={176}
+              src="/static/images/avatar.jpg"
+              sizes="30vw"
+              priority
+              className="rounded-full "
+            />
+          </div>
+        </div>
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">latest blog article</p>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
@@ -91,11 +115,11 @@ export default function Home({ posts }) {
           </Link>
         </div>
       )}
-      {siteMetadata.newsletter.provider !== '' && (
+      {/* {siteMetadata.newsletter.provider !== '' && (
         <div className="flex items-center justify-center pt-4">
           <NewsletterForm />
         </div>
-      )}
+      )} */}
     </>
   )
 }
