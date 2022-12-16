@@ -31,7 +31,8 @@ export default function Home({ posts }) {
               {/* <span className="font-semibold">Vercel</span> */}
             </h2>
             <p className="mb-16 text-gray-600 dark:text-gray-400">
-              a developer who interest in many modern tech stack
+              I have a passion for using technology to solve problems and create innovative
+              solutions.
             </p>
           </div>
           <div className="relative mb-8  w-[80px] sm:mb-0 sm:w-[176px]">
