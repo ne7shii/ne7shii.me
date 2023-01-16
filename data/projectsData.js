@@ -6,7 +6,7 @@ const projectsData = [
     href: 'https://github.com/ne7shii/ne7shii.me',
   },
   {
-    title: 'custom storefront shopify e-commerce',
+    title: 'neet.design',
     description: `an e-commerce website using shopify, hydrogen, tailwind, vercel, graphql`,
     imgSrc: '/static/images/hydrogen.png',
     href: 'https://neet.design',
