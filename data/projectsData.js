@@ -5,6 +5,12 @@ const projectsData = [
     imgSrc: '/static/images/next-tailwind.png',
     href: 'https://github.com/ne7shii/ne7shii.me',
   },
+  {
+    title: 'custom storefront shopify e-commerce',
+    description: `an e-commerce website using shopify, hydrogen, tailwind, vercel, graphql`,
+    imgSrc: '/static/images/hydrogen.png',
+    href: 'https://neet.design',
+  },
   // {
   //   title: 'The Time Machine',
   //   description: `Imagine being able to travel back in time or to the future. Simple turn the knob
