@@ -4,12 +4,21 @@ const projectsData = [
     description: `a personal website/blog using nextjs, tailwindcss`,
     imgSrc: '/static/images/next-tailwind.png',
     href: 'https://github.com/ne7shii/ne7shii.me',
+    visible: 'public',
   },
   {
     title: 'neet.design',
     description: `an e-commerce website using shopify, hydrogen, tailwind, vercel, graphql`,
     imgSrc: '/static/images/hydrogen.png',
     href: 'https://neet.design',
+    visible: 'private',
+  },
+  {
+    title: 'prompt-playground',
+    description: `openai application back by openai gpt-3`,
+    imgSrc: '/static/images/openai.png',
+    href: 'https://prompt-playground.vercel.app/',
+    visible: 'private',
   },
   // {
   //   title: 'The Time Machine',
