@@ -41,7 +41,9 @@ const Card = ({ title, description, imgSrc, href, visible }) => (
           </h2>
           <div
             className={`flex h-fit items-center justify-center rounded-full px-2 ${
-              visible === 'private' ? 'bg-red-900' : 'bg-green-700'
+              visible === 'private'
+                ? 'border-2 border-none bg-red-200 dark:bg-red-900'
+                : 'border-2 border-none bg-green-200 dark:bg-green-700'
             }`}
           >
             {visible}
