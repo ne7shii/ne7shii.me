@@ -26,6 +26,7 @@ export default function Projects() {
                 imgSrc={d.imgSrc}
                 href={d.href}
                 visible={d.visible}
+                tags={d.tags}
               />
             ))}
           </div>

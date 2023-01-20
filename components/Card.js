@@ -1,7 +1,7 @@
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href, visible }) => (
+const Card = ({ title, description, imgSrc, href, visible, tags }) => (
   <div className="md p-4 md:w-1/2" style={{ maxWidth: '544px' }}>
     <div
       className={`${
@@ -14,7 +14,7 @@ const Card = ({ title, description, imgSrc, href, visible }) => (
             <Image
               alt={title}
               src={imgSrc}
-              className="object-cover object-center md:h-36 lg:h-48"
+              className="bg-slate-500 object-cover object-center md:h-36 lg:h-48"
               width={544}
               height={306}
             />
@@ -51,6 +51,18 @@ const Card = ({ title, description, imgSrc, href, visible }) => (
         </div>
 
         <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
+        {tags && (
+          <div className="flex">
+            {tags.map((tag) => (
+              <div
+                key={`${title}-${tag}`}
+                className="mx-1 rounded-full bg-blue-200 px-2  dark:bg-blue-900"
+              >
+                {tag}
+              </div>
+            ))}
+          </div>
+        )}
         {/* {href && (
           <Link
             href={href}
