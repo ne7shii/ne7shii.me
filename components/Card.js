@@ -52,11 +52,11 @@ const Card = ({ title, description, imgSrc, href, visible, tags }) => (
 
         <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
         {tags && (
-          <div className="flex">
+          <div className="flex flex-wrap">
             {tags.map((tag) => (
               <div
                 key={`${title}-${tag}`}
-                className="mx-1 rounded-full bg-blue-200 px-2  dark:bg-blue-900"
+                className="m-1 rounded-full bg-blue-200 px-2  dark:bg-blue-900"
               >
                 {tag}
               </div>
