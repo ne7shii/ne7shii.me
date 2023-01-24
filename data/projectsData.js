@@ -13,7 +13,7 @@ const projectsData = [
     imgSrc: '/static/images/hydrogen.png',
     href: 'https://neet.design',
     visible: 'private',
-    tags: ['shopify', 'hydrogen', 'e-commerce', 'tailwind', 'react'],
+    tags: ['shopify', 'hydrogen', 'typescript', 'e-commerce', 'tailwind', 'react'],
   },
   {
     title: 'prompt-playground',
@@ -21,7 +21,7 @@ const projectsData = [
     imgSrc: '/static/images/openai.png',
     href: 'https://prompt-playground.vercel.app/',
     visible: 'private',
-    tags: ['next.js', 'tailwindcss', 'openai', 'gpt-3', 'prompt'],
+    tags: ['next.js', 'tailwindcss', 'typescript', 'trpc', 'openai', 'gpt-3', 'prompt'],
   },
   // {
   //   title: 'The Time Machine',
