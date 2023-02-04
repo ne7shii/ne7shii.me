@@ -35,15 +35,15 @@ export default function Home({ posts }) {
               solutions.
             </p>
           </div>
-          <div className="relative mb-8  w-[80px] sm:mb-0 sm:w-[176px]">
+          <div className="relative mb-8  flex h-fit w-[80px] transition duration-500 hover:scale-110 sm:mb-0 sm:w-[176px]">
+            <div className="absolute h-full w-full animate-[spin_1s_linear_infinite] rounded-full bg-gradient-to-r from-blue-700 to-red-700 blur-lg" />
             <Image
               alt="Watcharapong Chaidee"
               height={176}
               width={176}
               src="/static/images/avatar.jpg"
-              sizes="30vw"
               priority
-              className="rounded-full "
+              className="relative h-full w-full rounded-full"
             />
           </div>
         </div>
