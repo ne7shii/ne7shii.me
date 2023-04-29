@@ -7,14 +7,7 @@ const projectsData = [
     visible: 'public',
     tags: ['next.js', 'tailwind', 'markdown'],
   },
-  {
-    title: 'neet.design',
-    description: `an e-commerce website using shopify, hydrogen, tailwind, vercel, graphql`,
-    imgSrc: '/static/images/hydrogen.png',
-    href: 'https://neet.design',
-    visible: 'private',
-    tags: ['shopify', 'hydrogen', 'typescript', 'e-commerce', 'tailwind', 'react'],
-  },
+
   {
     title: 'prompt-playground',
     description: `openai application back by openai gpt-3`,
