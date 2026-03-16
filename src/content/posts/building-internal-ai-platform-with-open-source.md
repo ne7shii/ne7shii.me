@@ -38,34 +38,7 @@ toc: true
 
 ## ภาพรวม Architecture
 
-```
-┌─────────────────────────────────────────────────┐
-│               Users / Agents                     │
-│   (LibreChat / Dify / Custom Agent / MCP Client) │
-└──────────────────────┬──────────────────────────┘
-                       │
-              ┌────────▼─────────┐
-              │    ZITADEL       │
-              │  (SSO + Roles)   │
-              │  ต่อ company IdP  │
-              └────────┬─────────┘
-                       │ OIDC token + roles
-              ┌────────▼─────────┐
-              │  AgentGateway    │
-              │  (MCP Gateway)   │
-              │  policy engine   │
-              │  audit · budget  │
-              └────────┬─────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-  ┌─────▼─────┐  ┌────▼─────┐  ┌────▼──────┐
-  │ LLM APIs  │  │ RAGFlow  │  │  Other    │
-  │ OpenAI    │  │ (MCP)    │  │  MCP      │
-  │ Anthropic │  │ Knowledge│  │  Tools    │
-  │ Ollama    │  │ Base     │  │  ...      │
-  └───────────┘  └──────────┘  └───────────┘
-```
+![AI Platform Architecture](/blog/ai-platform.jpg)
 
 ง่ายๆ คือทุกอย่างวิ่งผ่าน AgentGateway หมด ไม่ว่าจะเป็น LLM หรือ MCP tools อะไรก็ตาม ส่วน ZITADEL คอยดูว่าใครมีสิทธิ์ใช้อะไร
 
