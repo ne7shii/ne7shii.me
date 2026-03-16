@@ -1,14 +1,12 @@
 import type { SiteConfig } from '~/types'
 
 const config: SiteConfig = {
-  // Absolute URL to the root of your published site, used for generating links and sitemaps.
-  // TODO: Update with your actual site URL
   site: 'https://ne7shii.me',
   title: 'ne7shii',
-  description: 'Personal blog by ne7shii',
-  // TODO: Update author name
-  author: 'ne7shii',
-  tags: ['blog', 'tech', 'ne7shii'],
+  description:
+    'Solution Architect & DevOps Engineer — Kubernetes, platform engineering, and applied AI',
+  author: 'Watcharapong Chaidee',
+  tags: ['kubernetes', 'devops', 'platform-engineering', 'ai', 'infrastructure'],
   // Path to the image used for generating social media previews.
   // Needs to be a square JPEG file due to limitations of the social card generator.
   // Try https://squoosh.app/ to easily convert images to JPEG.
@@ -37,7 +35,6 @@ const config: SiteConfig = {
       name: 'Archive',
       url: '/posts',
     },
-    // TODO: Update GitHub URL
     {
       name: 'GitHub',
       url: 'https://github.com/ne7shii',
@@ -147,15 +144,9 @@ const config: SiteConfig = {
       // },
     },
   },
-  // Social links to display in the footer.
-  // TODO: Update social links with your actual profiles
   socialLinks: {
     github: 'https://github.com/ne7shii',
-    // mastodon: '',
-    // email: '',
-    // linkedin: '',
-    // bluesky: '',
-    // twitter: '',
+    email: 'mailto:ne7shii@gmail.com',
     rss: true,
   },
   // Configuration for Giscus comments.
@@ -171,9 +162,10 @@ const config: SiteConfig = {
   // Make sure to compress the image to a web-friendly size (<100kb)
   // Try using the excellent https://squoosh.app web app for creating small webp files
   characters: {
-    owl: '/owl.webp',
-    unicorn: '/unicorn.webp',
-    duck: '/duck.webp',
+    guy1: '/guy1.webp',
+    guy2: '/guy2.webp',
+    guy3: '/guy3.webp',
+    ne7shii: '/ne7shii-char.webp',
   },
 }
 

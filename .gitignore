@@ -1,6 +1,8 @@
 # build output
 dist/
 
+ref/
+
 # generated types
 .astro/
 
@@ -15,6 +17,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.*
 .env.production
 
 # macOS-specific files

@@ -5,4 +5,4 @@ avatarImage:
 githubCalendar: 'ne7shii'
 ---
 
-Welcome to my blog! More about me coming soon.
+Solution Architect & DevOps Engineer building Kubernetes-based infrastructure for government and enterprise systems. Writing about platform engineering, applied AI, and lessons from the trenches.

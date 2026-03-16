@@ -160,7 +160,7 @@ function getMonthLabels(
     })
 }
 
-const { username, year = 'last' } = Astro.props
+const { username, year = new Date().getFullYear() } = Astro.props
 
 const data = await fetchData(username, year)
 
