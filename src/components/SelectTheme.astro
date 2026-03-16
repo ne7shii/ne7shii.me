@@ -3,12 +3,28 @@ import '@pagefind/default-ui/css/ui.css'
 import IconPalette from '~/icons/palette.svg'
 import IconCircleX from '~/icons/circle-x.svg'
 import siteConfig from '~/site.config'
+import { resolveThemeColorStyles } from '~/utils'
 
 function kebabToTitleCase(str: string): string {
   return str
-    .split('-') // Split the string into words
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-    .join(' ') // Join the words with a space
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+const resolvedThemes = await resolveThemeColorStyles(
+  siteConfig.themes.include,
+  siteConfig.themes.overrides,
+)
+
+function getPaletteColors(themeId: string) {
+  const t = resolvedThemes[themeId] || {}
+  return {
+    background: t.background || '#000',
+    foreground: t.foreground || '#fff',
+    accent: t.accent || '#888',
+    heading1: t.heading1 || t.accent || '#888',
+  }
 }
 ---
 
@@ -39,13 +55,22 @@ function kebabToTitleCase(str: string): string {
         class="flex flex-col bg-background text-accent m-0 p-2 rounded-xl"
       >
         {
-          siteConfig.themes.include.map((theme) => (
-            <li>
-              <button class="w-full rounded-lg py-1 px-2" data-theme={theme}>
-                {kebabToTitleCase(theme)}
-              </button>
-            </li>
-          ))
+          siteConfig.themes.include.map((theme) => {
+            const colors = getPaletteColors(theme)
+            return (
+              <li>
+                <button class="w-full rounded-lg py-1 px-2 flex items-center gap-2" data-theme={theme}>
+                  <span class="theme-palette shrink-0 flex rounded overflow-hidden">
+                    <span class="w-3 h-4" style={`background:${colors.background}`} />
+                    <span class="w-3 h-4" style={`background:${colors.foreground}`} />
+                    <span class="w-3 h-4" style={`background:${colors.accent}`} />
+                    <span class="w-3 h-4" style={`background:${colors.heading1}`} />
+                  </span>
+                  {kebabToTitleCase(theme)}
+                </button>
+              </li>
+            )
+          })
         }
       </ul>
     </div>
