@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <rect x="10" y="10" width="880" height="480" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- ===== Project A ===== -->
+  <rect x="26" y="50" width="350" height="180" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="42" y="72" font-size="12" font-weight="700" fill="#94a3b8">Project A · client A</text>
+  <rect x="42" y="86" width="116" height="54" rx="9" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
+  <text x="100" y="118" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">apps / services</text>
+  <rect x="204" y="86" width="156" height="54" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="282" y="109" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">OTel Collector A</text>
+  <text x="282" y="126" text-anchor="middle" font-size="10" fill="#1e40af">(ของโปรเจกต์)</text>
+  <rect x="204" y="166" width="156" height="50" rx="9" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="282" y="188" text-anchor="middle" font-size="11.5" font-weight="700" fill="#115e59">Backend A</text>
+  <text x="282" y="205" text-anchor="middle" font-size="10" fill="#115e59">monitoring ของลูกค้า A</text>
+
+  <!-- ===== Project B ===== -->
+  <rect x="26" y="280" width="350" height="180" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="42" y="302" font-size="12" font-weight="700" fill="#94a3b8">Project B · client B</text>
+  <rect x="42" y="316" width="116" height="54" rx="9" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
+  <text x="100" y="348" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">apps / services</text>
+  <rect x="204" y="316" width="156" height="54" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="282" y="339" text-anchor="middle" font-size="12" font-weight="700" fill="#1e40af">OTel Collector B</text>
+  <text x="282" y="356" text-anchor="middle" font-size="10" fill="#1e40af">(ของโปรเจกต์)</text>
+  <rect x="204" y="396" width="156" height="50" rx="9" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="282" y="418" text-anchor="middle" font-size="11.5" font-weight="700" fill="#115e59">Backend B</text>
+  <text x="282" y="435" text-anchor="middle" font-size="10" fill="#115e59">monitoring ของลูกค้า B</text>
+
+  <!-- ===== Central zone ===== -->
+  <rect x="474" y="150" width="402" height="170" rx="12" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="490" y="172" font-size="12" font-weight="700" fill="#a78bfa">ส่วนกลาง · platform team</text>
+  <rect x="498" y="194" width="156" height="74" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.7"/>
+  <text x="576" y="227" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e40af">Central Collector</text>
+  <text x="576" y="246" text-anchor="middle" font-size="10" fill="#1e40af">รวมทุกโปรเจกต์</text>
+  <rect x="690" y="190" width="168" height="82" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.7"/>
+  <text x="774" y="222" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400e">ClickStack</text>
+  <text x="774" y="240" text-anchor="middle" font-size="9.5" fill="#92400e">ClickHouse · HyperDX</text>
+  <text x="774" y="255" text-anchor="middle" font-size="9.5" fill="#92400e">· Portal</text>
+
+  <!-- intra-project arrows -->
+  <line x1="158" y1="113" x2="202" y2="113" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="180" y="106" text-anchor="middle" font-size="9" fill="#64748b">OTLP</text>
+  <line x1="282" y1="140" x2="282" y2="164" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="158" y1="343" x2="202" y2="343" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="180" y="336" text-anchor="middle" font-size="9" fill="#64748b">OTLP</text>
+  <line x1="282" y1="370" x2="282" y2="394" stroke="#0d9488" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- forward to central (accent) -->
+  <path d="M360,107 C440,120 440,205 496,222" fill="none" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arrowv)"/>
+  <path d="M360,343 C440,330 440,250 496,240" fill="none" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arrowv)"/>
+  <text x="430" y="285" text-anchor="middle" font-size="10.5" font-weight="600" fill="#7c3aed">forward เข้าส่วนกลาง</text>
+
+  <!-- central collector -> clickstack -->
+  <line x1="654" y1="231" x2="688" y2="231" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- legend -->
+  <line x1="40" y1="478" x2="68" y2="478" stroke="#0d9488" stroke-width="2.2"/>
+  <text x="74" y="482" font-size="10" fill="#475569">เข้า backend ของลูกค้าเอง</text>
+  <line x1="250" y1="478" x2="278" y2="478" stroke="#7c3aed" stroke-width="2.2"/>
+  <text x="284" y="482" font-size="10" fill="#475569">forward เข้า collector ส่วนกลาง (fan-out)</text>
+</svg>
