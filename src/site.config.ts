@@ -171,6 +171,9 @@ const config: SiteConfig = {
     guy2: '/guy2.webp',
     guy3: '/guy3.webp',
     ne7shii: '/ne7shii-char.webp',
+    claude: '/claude-char.webp',
+    gemini: '/gemini-char.webp',
+    anon: '/anon-char.webp',
   },
 }
 
