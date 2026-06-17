@@ -8,22 +8,59 @@ interface Props {
 
 const { posts } = Astro.props
 const tagsGroup = await TagsGroup.build(posts)
+const tags = tagsGroup.sortCollationsLargest()
+
+// Number of tags shown before the "Show all" toggle.
+const TAG_LIMIT = 12
 ---
 
-<ul class="flex flex-wrap gap-x-3 gap-y-4 my-5">
-  {
-    tagsGroup.sortCollationsLargest().map((tag) => (
-      <li>
-        <a
-          href={tag.url}
-          class="flex items-start gap-2.5 py-2 pl-4 pr-3 bg-accent/7 rounded-3xl border-transparent hover:border-accent/20 border-1 text-foreground/90"
-        >
-          {tag.title}
-          <span class="rounded-full bg-foreground/7 text-foreground/90 px-2 py-1 text-xs font-semibold">
-            {tag.entries.length}
-          </span>
-        </a>
-      </li>
-    ))
+<tags-section class="block">
+  <ul class="flex flex-wrap items-center gap-x-3 gap-y-4 my-5">
+    {
+      tags.map((tag, i) => (
+        <li class:list={[i >= TAG_LIMIT && 'tags-extra hidden']}>
+          <a
+            href={tag.url}
+            class="flex items-start gap-2.5 py-2 pl-4 pr-3 bg-accent/7 rounded-3xl border-transparent hover:border-accent/20 border-1 text-foreground/90"
+          >
+            {tag.title}
+            <span class="rounded-full bg-foreground/7 text-foreground/90 px-2 py-1 text-xs font-semibold">
+              {tag.entries.length}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+    {
+      tags.length > TAG_LIMIT && (
+        <li>
+          <button
+            class="tags-toggle rounded-3xl border-1 border-accent/25 py-2 px-4 text-sm text-accent/90 transition-colors hover:bg-accent/8"
+            type="button"
+            aria-expanded="false"
+            data-count={tags.length - TAG_LIMIT}
+          >
+            + {tags.length - TAG_LIMIT} more
+          </button>
+        </li>
+      )
+    }
+  </ul>
+</tags-section>
+
+<script>
+  class TagsSection extends HTMLElement {
+    connectedCallback() {
+      const toggle = this.querySelector<HTMLButtonElement>('.tags-toggle')
+      if (!toggle) return
+      const extras = [...this.querySelectorAll<HTMLElement>('.tags-extra')]
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true'
+        extras.forEach((el) => el.classList.toggle('hidden', expanded))
+        toggle.setAttribute('aria-expanded', String(!expanded))
+        toggle.textContent = expanded ? `+ ${toggle.dataset.count} more` : 'Show less'
+      })
+    }
   }
-</ul>
+  customElements.define('tags-section', TagsSection)
+</script>
