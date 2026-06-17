@@ -1,0 +1,15 @@
+---
+import Layout from '~/layouts/Layout.astro'
+import { getSortedPosts } from '~/utils'
+import PageHeader from '~/components/PageHeader.astro'
+import ArchiveBrowser from '~/components/ArchiveBrowser.astro'
+
+const posts = await getSortedPosts()
+---
+
+<Layout title="Archive" description="Browse and filter all posts in the archive">
+  <div class="mt-2 sm:mt-0">
+    <PageHeader title="archive" />
+    <ArchiveBrowser posts={posts} />
+  </div>
+</Layout>

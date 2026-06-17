@@ -1,0 +1,360 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { TagsGroup, dateString } from '~/utils'
+import PostPreview from '~/components/PostPreview.astro'
+import IconSearch from '~/icons/search.svg'
+import IconCircleX from '~/icons/circle-x.svg'
+
+interface Props {
+  posts: CollectionEntry<'posts'>[]
+}
+
+const { posts } = Astro.props
+
+// Newest first for display
+const ordered = [...posts].sort((a, b) =>
+  a.data.published < b.data.published ? 1 : -1,
+)
+
+// Tag pills with counts (largest first)
+const tagsGroup = await TagsGroup.build(posts)
+const tags = tagsGroup.sortCollationsLargest()
+
+// Number of tag pills shown before the "Show all" toggle.
+const TAG_LIMIT = 12
+
+// Group posts by year (descending)
+const yearMap = new Map<number, CollectionEntry<'posts'>[]>()
+for (const post of ordered) {
+  const year = post.data.published.getFullYear()
+  if (!yearMap.has(year)) yearMap.set(year, [])
+  yearMap.get(year)!.push(post)
+}
+const years = [...yearMap.keys()].sort((a, b) => b - a)
+
+// Helper: build the searchable data attributes for a post
+const dataAttrs = (post: CollectionEntry<'posts'>) => ({
+  'data-post': '',
+  'data-title': post.data.title.toLowerCase(),
+  'data-tags': `|${(post.data.tags ?? []).map((t) => t.toLowerCase()).join('|')}|`,
+})
+---
+
+<archive-browser id="archive-browser" class="block mt-6">
+  {/* Toolbar */}
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <label class="relative flex items-center grow max-w-md">
+      <IconSearch class="pointer-events-none absolute left-3 size-5 text-accent/70" />
+      <input
+        id="archive-search"
+        type="text"
+        autocomplete="off"
+        placeholder="filter posts…"
+        aria-label="Filter posts by title or tag"
+        class="w-full bg-transparent text-foreground border-1 border-foreground/30 focus:border-accent/60 rounded-xl py-2 pl-10 pr-9 transition-colors outline-none"
+      />
+      <button
+        id="archive-search-clear"
+        type="button"
+        aria-label="Clear filter"
+        class="absolute right-2.5 hidden text-accent/50 hover:text-accent"
+      >
+        <IconCircleX class="size-5" />
+      </button>
+    </label>
+
+    {/* View toggle */}
+    <div
+      class="inline-flex shrink-0 self-start rounded-xl border-1 border-foreground/20 p-1 text-sm"
+      role="group"
+      aria-label="View mode"
+    >
+      <button
+        id="view-compact"
+        type="button"
+        data-view="compact"
+        aria-pressed="true"
+        class="rounded-lg px-3 py-1 transition-colors"
+      >
+        Compact
+      </button>
+      <button
+        id="view-cards"
+        type="button"
+        data-view="cards"
+        aria-pressed="false"
+        class="rounded-lg px-3 py-1 transition-colors"
+      >
+        Cards
+      </button>
+    </div>
+  </div>
+
+  {/* Tag pills */}
+  {
+    tags.length > 0 && (
+      <div class="mt-5 flex flex-wrap items-center gap-2.5" id="archive-tags">
+        {tags.map((tag, i) => (
+          <button
+            type="button"
+            class:list={[
+              'archive-tag flex items-center gap-2 rounded-3xl border-1 border-transparent bg-accent/7 py-1.5 pl-3.5 pr-2.5 text-sm text-foreground/90 transition-colors hover:border-accent/25',
+              i >= TAG_LIMIT && 'archive-tag-extra hidden',
+            ]}
+            data-tag={tag.title.toLowerCase()}
+            aria-pressed="false"
+          >
+            {tag.title}
+            <span class="rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-semibold">
+              {tag.entries.length}
+            </span>
+          </button>
+        ))}
+        {tags.length > TAG_LIMIT && (
+          <button
+            id="archive-tags-toggle"
+            type="button"
+            class="rounded-3xl border-1 border-accent/25 py-1.5 px-3.5 text-sm text-accent/90 transition-colors hover:bg-accent/8"
+            aria-expanded="false"
+            data-count={tags.length - TAG_LIMIT}
+          >
+            + {tags.length - TAG_LIMIT} more
+          </button>
+        )}
+      </div>
+    )
+  }
+
+  {/* Result count */}
+  <p class="mt-5 text-sm text-foreground/60" id="archive-count" aria-live="polite"></p>
+
+  {/* Compact view — grouped by year */}
+  <div id="archive-compact" class="mt-2">
+    {
+      years.map((year) => (
+        <div data-year-group={year}>
+          <h2 class="archive-year mt-8 mb-1 flex items-baseline gap-3 text-accent">
+            <span class="text-xl font-semibold">{year}</span>
+            <span class="h-px grow bg-accent/15" />
+          </h2>
+          <ul>
+            {yearMap.get(year)!.map((post) => (
+              <li {...dataAttrs(post)}>
+                <a
+                  href={`/posts/${post.id}`}
+                  class="group flex flex-col gap-1 border-b-1 border-foreground/8 py-3 sm:flex-row sm:items-baseline sm:gap-4 no-underline"
+                >
+                  <time
+                    datetime={dateString(post.data.published)}
+                    class="shrink-0 font-mono text-sm text-foreground/55 tabular-nums"
+                  >
+                    {dateString(post.data.published).slice(5)}
+                  </time>
+                  <span class="grow text-foreground group-hover:text-accent transition-colors">
+                    {post.data.title}
+                  </span>
+                  {post.data.tags && post.data.tags.length > 0 && (
+                    <span class="hidden shrink-0 gap-2 text-xs text-foreground/45 md:flex">
+                      {post.data.tags.slice(0, 3).map((t) => (
+                        <span>#{t}</span>
+                      ))}
+                    </span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* Card view */}
+  <div id="archive-cards" class="hidden">
+    {
+      ordered.map((post) => (
+        <div {...dataAttrs(post)}>
+          <PostPreview post={post} />
+        </div>
+      ))
+    }
+  </div>
+
+  {/* Empty state */}
+  <p id="archive-empty" class="mt-10 hidden text-center text-foreground/60">
+    No posts match your filter.
+  </p>
+</archive-browser>
+
+<style>
+  /* Active tag pill */
+  .archive-tag[aria-pressed='true'] {
+    background-color: color-mix(in oklab, var(--theme-accent) 18%, transparent);
+    border-color: color-mix(in oklab, var(--theme-accent) 45%, transparent);
+    color: var(--theme-accent);
+  }
+
+  /* Active view-toggle button */
+  #archive-browser [data-view][aria-pressed='true'] {
+    background-color: color-mix(in oklab, var(--theme-accent) 14%, transparent);
+    color: var(--theme-accent);
+  }
+  #archive-browser [data-view][aria-pressed='false'] {
+    color: color-mix(in oklab, var(--theme-foreground) 65%, transparent);
+  }
+</style>
+
+<script>
+  class ArchiveBrowser extends HTMLElement {
+    connectedCallback() {
+      const root = this
+      const search = root.querySelector<HTMLInputElement>('#archive-search')!
+      const clearBtn = root.querySelector<HTMLButtonElement>('#archive-search-clear')!
+      const tagButtons = [...root.querySelectorAll<HTMLButtonElement>('.archive-tag')]
+      const extraTags = [...root.querySelectorAll<HTMLElement>('.archive-tag-extra')]
+      const tagsToggle = root.querySelector<HTMLButtonElement>('#archive-tags-toggle')
+      const viewButtons = [...root.querySelectorAll<HTMLButtonElement>('[data-view]')]
+      const compact = root.querySelector<HTMLElement>('#archive-compact')!
+      const cards = root.querySelector<HTMLElement>('#archive-cards')!
+      const count = root.querySelector<HTMLElement>('#archive-count')!
+      const empty = root.querySelector<HTMLElement>('#archive-empty')!
+
+      const activeTags = new Set<string>()
+      let query = ''
+
+      const STORAGE_KEY = 'archive-view'
+
+      // ---- URL <-> state sync -------------------------------------------
+      const readURL = () => {
+        const params = new URLSearchParams(window.location.search)
+        query = (params.get('q') ?? '').toLowerCase().trim()
+        const t = params.get('tags')
+        if (t) t.split(',').forEach((x) => x && activeTags.add(x.toLowerCase()))
+        search.value = query
+      }
+      const writeURL = () => {
+        const params = new URLSearchParams()
+        if (query) params.set('q', query)
+        if (activeTags.size) params.set('tags', [...activeTags].join(','))
+        const qs = params.toString()
+        const url = window.location.pathname + (qs ? `?${qs}` : '')
+        window.history.replaceState(null, '', url)
+      }
+
+      // ---- View toggle --------------------------------------------------
+      const setView = (view: string, persist = true) => {
+        const isCompact = view === 'compact'
+        compact.classList.toggle('hidden', !isCompact)
+        cards.classList.toggle('hidden', isCompact)
+        viewButtons.forEach((b) =>
+          b.setAttribute('aria-pressed', String(b.dataset.view === view)),
+        )
+        if (persist) {
+          try {
+            localStorage.setItem(STORAGE_KEY, view)
+          } catch {}
+        }
+      }
+      viewButtons.forEach((b) =>
+        b.addEventListener('click', () => setView(b.dataset.view!)),
+      )
+
+      // ---- Tag section collapse / expand --------------------------------
+      const setTagsExpanded = (expanded: boolean) => {
+        extraTags.forEach((el) => el.classList.toggle('hidden', !expanded))
+        if (tagsToggle) {
+          tagsToggle.setAttribute('aria-expanded', String(expanded))
+          tagsToggle.textContent = expanded
+            ? 'Show less'
+            : `+ ${tagsToggle.dataset.count} more`
+        }
+      }
+      tagsToggle?.addEventListener('click', () =>
+        setTagsExpanded(tagsToggle.getAttribute('aria-expanded') !== 'true'),
+      )
+
+      // ---- Filtering ----------------------------------------------------
+      const itemMatches = (el: HTMLElement) => {
+        const title = el.dataset.title ?? ''
+        const tags = el.dataset.tags ?? ''
+        if (query && !title.includes(query) && !tags.includes(query)) return false
+        for (const t of activeTags) {
+          if (!tags.includes(`|${t}|`)) return false
+        }
+        return true
+      }
+
+      const apply = () => {
+        let visible = 0
+        // The two views mirror the same posts, so de-dupe the count via compact.
+        const allItems = [...root.querySelectorAll<HTMLElement>('[data-post]')]
+        allItems.forEach((el) => {
+          const show = itemMatches(el)
+          el.classList.toggle('hidden', !show)
+        })
+        // Count unique posts (compact list is the source of truth).
+        compact.querySelectorAll<HTMLElement>('[data-post]').forEach((el) => {
+          if (!el.classList.contains('hidden')) visible++
+        })
+
+        // Hide empty year groups in the compact view.
+        compact.querySelectorAll<HTMLElement>('[data-year-group]').forEach((g) => {
+          const anyVisible = [...g.querySelectorAll<HTMLElement>('[data-post]')].some(
+            (el) => !el.classList.contains('hidden'),
+          )
+          g.classList.toggle('hidden', !anyVisible)
+        })
+
+        const total = compact.querySelectorAll('[data-post]').length
+        const filtered = query !== '' || activeTags.size > 0
+        count.textContent = filtered
+          ? `${visible} of ${total} posts`
+          : `${total} posts`
+        empty.classList.toggle('hidden', visible !== 0)
+        clearBtn.classList.toggle('hidden', query === '')
+        writeURL()
+      }
+
+      // ---- Wire up inputs ----------------------------------------------
+      search.addEventListener('input', () => {
+        query = search.value.toLowerCase().trim()
+        apply()
+      })
+      clearBtn.addEventListener('click', () => {
+        search.value = ''
+        query = ''
+        search.focus()
+        apply()
+      })
+      tagButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tag = btn.dataset.tag!
+          if (activeTags.has(tag)) activeTags.delete(tag)
+          else activeTags.add(tag)
+          btn.setAttribute('aria-pressed', String(activeTags.has(tag)))
+          apply()
+        })
+      })
+
+      // ---- Init ---------------------------------------------------------
+      let storedView = 'compact'
+      try {
+        storedView = localStorage.getItem(STORAGE_KEY) || 'compact'
+      } catch {}
+      setView(storedView, false)
+      readURL()
+      // Reflect any URL-provided tags onto the pills.
+      tagButtons.forEach((btn) =>
+        btn.setAttribute('aria-pressed', String(activeTags.has(btn.dataset.tag!))),
+      )
+      // Expand the tag section if an active tag is hidden in the collapsed set.
+      const activeHidden = extraTags.some((el) =>
+        activeTags.has((el as HTMLElement).dataset.tag!),
+      )
+      if (activeHidden) setTagsExpanded(true)
+      apply()
+    }
+  }
+
+  customElements.define('archive-browser', ArchiveBrowser)
+</script>
