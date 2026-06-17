@@ -23,6 +23,24 @@ import remarkMath from 'remark-math' /* for latex math support */
 import rehypeKatex from 'rehype-katex' /* again, for latex math support */
 import remarkGemoji from './src/plugins/remark-gemoji' /* for shortcode emoji support */
 import rehypePixelated from './src/plugins/rehype-pixelated' /* Custom plugin to handle pixelated images */
+import fs from 'node:fs'
+import path from 'node:path'
+
+// Build a map of post URL -> last-modified date (from `updated` or `published`
+// frontmatter) so the sitemap can advertise accurate <lastmod> values.
+const postsDir = './src/content/posts'
+const postLastmod = {}
+for (const file of fs.readdirSync(postsDir)) {
+  if (!/\.mdx?$/.test(file)) continue
+  const raw = fs.readFileSync(path.join(postsDir, file), 'utf-8')
+  const fm = raw.split(/^---\s*$/m)[1] ?? ''
+  const get = (key) => fm.match(new RegExp(`^${key}:\\s*['"]?([^'"\\n]+)`, 'm'))?.[1]
+  const date = get('updated') || get('published')
+  if (date) {
+    const slug = file.replace(/\.mdx?$/, '')
+    postLastmod[`${siteConfig.site}/posts/${slug}`] = new Date(date).toISOString()
+  }
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -64,7 +82,13 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        const lastmod = postLastmod[item.url.replace(/\/$/, '')]
+        if (lastmod) item.lastmod = lastmod
+        return item
+      },
+    }),
     expressiveCode({
       themes: siteConfig.themes.include,
       useDarkModeMediaQuery: false,
